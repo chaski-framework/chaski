@@ -11,7 +11,6 @@ Please, visit the [Wiki](https://github.com/chaski-framework/chaski/wiki) for de
 
 - [Amro Al-Akkad](https://github.com/alakkad)
 
-## License
 
 Licensing and legal issues
 --------------------------
