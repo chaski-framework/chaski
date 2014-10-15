@@ -1,0 +1,5 @@
+Chaski Framework
+Copyright 2014 
+
+This product includes software which emerged from the development of 
+software which was implemented at the Fraunhofer Institute for Applied IT (http://www.fit.fraunhofer.de/en.html).
