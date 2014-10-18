@@ -10,6 +10,7 @@ Please, visit the [Wiki](https://github.com/chaski-framework/chaski/wiki) for de
 ## Authors
 
 - [Amro Al-Akkad](https://github.com/alakkad)
+- Any contributor(s)
 
 
 Licensing and legal issues
