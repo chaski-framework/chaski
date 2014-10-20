@@ -1,6 +1,6 @@
 ## Chaski Framework
 
-### Lightweight Framework for Wi-Fi Networking in Android
+### Lightweight Framework for Wi-Fi Tethering in Android
 
 Chaski is a framework for Android supporting the tethering between off-the-shelf Android devices. 
 
