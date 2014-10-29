@@ -440,7 +440,7 @@ public class ChaskiService extends Service implements IChaskiService{
 						
 						iApState = processGetWifiApState();
 						
-						handleApStateChanged2(iApState);
+						handleApStateChanged(iApState);
 						
 					} catch (RemoteException e) {
 						Log.e(TAG, "RemoteException was thrown when calling getWifiApState");
@@ -454,7 +454,7 @@ public class ChaskiService extends Service implements IChaskiService{
 			
 		}
 	
-		private void handleApStateChanged2(int iApState) {
+		private void handleApStateChanged(int iApState) {
 			
 			
 			Log.d(TAG,"wifiapstate="+ iApState); 
