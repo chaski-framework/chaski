@@ -94,6 +94,13 @@ public interface IChaskiService {
 	 * @throws RemoteException
 	 */
 	WifiConfiguration getWifiApConfiguration() throws RemoteException;
+	
+	/**
+	 * Method that retrieves the local IP address of a Wi-Fi client or AP. 
+	 * The ip address complies to IPv4.
+	 * @return String representation of an IP address, e.g. "192.168.43.22"
+	 */
+	String getLocalIpAdress();
 
     
     

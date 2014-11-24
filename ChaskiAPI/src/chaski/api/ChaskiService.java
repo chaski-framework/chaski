@@ -2,10 +2,16 @@ package chaski.api;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.http.conn.util.InetAddressUtils;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -756,6 +762,34 @@ public class ChaskiService extends Service implements IChaskiService{
 		
 		registerReceiver(broadcastReceiver, filter);
 		
+	}
+
+	@Override
+	public String getLocalIpAdress() {
+		
+		String ipv4;
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface
+					.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				  
+				if(intf.getName().startsWith("wlan") || intf.getName().startsWith("eth0") || intf.getName().startsWith("wl0.1")){
+					for (Enumeration<InetAddress> enumIpAddr = intf
+							.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+						InetAddress inetAddress = enumIpAddr.nextElement();
+						if (!inetAddress.isLoopbackAddress()
+								&& InetAddressUtils
+										.isIPv4Address(ipv4 = inetAddress
+												.getHostAddress())) {
+							return ipv4;
+						}
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			Log.e(TAG, ex.toString());
+		}
+		return null;
 	}
 
 }
