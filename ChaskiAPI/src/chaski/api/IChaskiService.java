@@ -86,7 +86,7 @@ public interface IChaskiService {
      * @param operationString String for app developers to assign a call identifier. 
      * For instance, the value of this parameter could be current time stamp.
      */
-	void triggerIpAddressesOfClients(String operationString);
+	void triggerIpAddressesOfValidClients(String operationString);
 
 	/**
 	 * Retrieves the current WifiConfiguration for the access point
@@ -97,10 +97,17 @@ public interface IChaskiService {
 	
 	/**
 	 * Method that retrieves the local IP address of a Wi-Fi client or AP. 
-	 * The ip address complies to IPv4.
+	 * The IP address complies to IPv4.
 	 * @return String representation of an IP address, e.g. "192.168.43.22"
 	 */
 	String getLocalIpAdress();
+
+	/**
+	 * Gets the current state of the access point, i.e. enabled, disabled or unknown.
+	 * @return the state of the Wi-Fi access point.
+	 * @throws RemoteException
+	 */
+	public int getWifiApState() throws RemoteException;
 
     
     

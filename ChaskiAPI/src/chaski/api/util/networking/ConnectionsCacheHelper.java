@@ -30,14 +30,12 @@ public class ConnectionsCacheHelper {
 		  * @param ip
 		  * @return a list containing all registered IP addresses in the ARP cache
 		  */
-		 private List <String> extractIPs() {
+		 public List <String> extractIPs() {
 		      
 		     BufferedReader br = null;
 		     
 		     
-		     List <String> extractedMacKList = new 
-//		    		 ArrayList
-		    		 CopyOnWriteArrayList
+		     List <String> extractedIpList = new CopyOnWriteArrayList
 		    		 <String>();
 		     try {
 		         br = new BufferedReader(new FileReader("/proc/net/arp"));
@@ -49,7 +47,7 @@ public class ConnectionsCacheHelper {
 		                 // Basic sanity check
 		                 String ip = splitted[0];
 		                 if (ip!=null && !ip.isEmpty()) {
-		                     extractedMacKList.add(ip);
+		                     extractedIpList.add(ip);
 		                 } else {
 		                     return null;
 		                 }
@@ -71,13 +69,13 @@ public class ConnectionsCacheHelper {
 		         }
 		     }
 		     
-		     return extractedMacKList;
+		     return extractedIpList;
 		 }
 
 	
 		 public boolean canReachAtLeastOneClient(){
 			 
-			 List<String> ipList = extractIPs();
+			 List<String> ipList = getListOfValidClients();
 			 
 			 boolean val = false;
 			 
@@ -94,7 +92,7 @@ public class ConnectionsCacheHelper {
 			 return val;
 		 }
 		 
-		 public List <String> getListOfIpAddressesOfClients(){
+		 public List <String> getListOfValidClients(){
 			 
 			 	List<String> ipList = extractIPs();
 				 

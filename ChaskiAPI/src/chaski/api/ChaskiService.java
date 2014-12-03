@@ -38,6 +38,7 @@ import chaski.api.util.networking.ConnectionsCacheHelper;
 public class ChaskiService extends Service implements IChaskiService{
 	
 	
+	private static final String GET_WIFI_AP_CONFIGURATION = "getWifiApConfiguration";
 	public static final int HANDLE_CONNECTION_TO_NETWORK_STATE = 0;
 	public static final int HANDLE_CONNECTION_COUNT_CHANGE = 1;
 	
@@ -276,7 +277,7 @@ public class ChaskiService extends Service implements IChaskiService{
 		@Override
 		public boolean disableAp() throws RemoteException {
 			
-			int state = processGetWifiApState();
+			int state = getWifiApState();
 			
 			if(state == ChaskiConstants.AP_STATE_ENABLED){
 				
@@ -299,7 +300,7 @@ public class ChaskiService extends Service implements IChaskiService{
 		public boolean isApEnabled() throws RemoteException  {
 			
 			
-			return (processGetWifiApState()==ChaskiConstants.AP_STATE_ENABLED);
+			return (getWifiApState()==ChaskiConstants.AP_STATE_ENABLED);
 			
 		}
 		
@@ -381,13 +382,13 @@ public class ChaskiService extends Service implements IChaskiService{
 		}
 
 		@Override
-		public void triggerIpAddressesOfClients(final String operationString){
+		public void triggerIpAddressesOfValidClients(final String operationString){
 			
 			Runnable runnable = new Runnable() {
 				
 				@Override
 				public void run() {
-					List<String> connectedClientList = new ConnectionsCacheHelper().getListOfIpAddressesOfClients();
+					List<String> connectedClientList = new ConnectionsCacheHelper().getListOfValidClients();
 					
 					String[] connectedClientsArray = new String [connectedClientList.size()];
 					
@@ -444,7 +445,7 @@ public class ChaskiService extends Service implements IChaskiService{
 					 
 					try {
 						
-						iApState = processGetWifiApState();
+						iApState = getWifiApState();
 						
 						handleApStateChanged(iApState);
 						
@@ -567,23 +568,23 @@ public class ChaskiService extends Service implements IChaskiService{
 			
 			@Override
 			public synchronized void run() {
-				List<String> listOfIpAddressesOfClients = new ConnectionsCacheHelper().getListOfIpAddressesOfClients();
+				List<String> listOfIpAddressesOfClients = new ConnectionsCacheHelper().extractIPs();
 				
-				int numberOfConnectedClients = listOfIpAddressesOfClients.size();
+				int numberOfClients = listOfIpAddressesOfClients.size();
 				
-				if(mConnectionCount!=numberOfConnectedClients){
+				if(mConnectionCount!=numberOfClients){
 					
-					mConnectionCount = numberOfConnectedClients; 
+					mConnectionCount = numberOfClients; 
 					
-					String[] connectedClientsArray = new String [numberOfConnectedClients];
+					String[] clientsArray = new String [numberOfClients];
 					
-					listOfIpAddressesOfClients.toArray(connectedClientsArray);
+					listOfIpAddressesOfClients.toArray(clientsArray);
 					
 					Intent intent = new Intent();
 					intent.setAction(ChaskiConstants.CLIENTS_STATE_ACTION);
 					Bundle bundle = new Bundle();
-					bundle.putInt(ChaskiConstants.KEY_CLIENTS,numberOfConnectedClients);
-					bundle.putStringArray(ChaskiConstants.KEY_STRING_ARRAY_OF_CLIENTS, connectedClientsArray);
+					bundle.putInt(ChaskiConstants.KEY_CLIENTS,numberOfClients);
+					bundle.putStringArray(ChaskiConstants.KEY_STRING_ARRAY_OF_CLIENTS, clientsArray);
 					
 					intent.putExtras(bundle);
 					
@@ -659,28 +660,11 @@ public class ChaskiService extends Service implements IChaskiService{
 	 */
 	private WifiConfiguration processGetWifiApConfiguration() {
 		try {
-			Method method = mWifiManager.getClass().getMethod("getWifiApConfiguration");
+			Method method = mWifiManager.getClass().getMethod(GET_WIFI_AP_CONFIGURATION);
 			return (WifiConfiguration) method.invoke(mWifiManager);
 		} catch (Exception e) {
 			Log.e(TAG, "", e);
 			return null;
-		}
-	}
-
-	private int processGetWifiApState() throws RemoteException {
-		try {
-			Method method = mWifiManager.getClass()
-					.getMethod(GET_WIFI_AP_STATE);
-			int val = (Integer) method.invoke(mWifiManager);
-	
-			// Modulo 10 to avoid problems with Android 4.x where the value of
-			// the constants is increased by 10
-			val = val % 10;
-	
-			return val;
-		} catch (Exception e) {
-			Log.e(TAG, "", e);
-			return WifiManager.WIFI_STATE_UNKNOWN;
 		}
 	}
 
@@ -790,6 +774,25 @@ public class ChaskiService extends Service implements IChaskiService{
 			Log.e(TAG, ex.toString());
 		}
 		return null;
+	}
+
+	@Override
+	public int getWifiApState() throws RemoteException {
+		
+		try {
+			Method method = mWifiManager.getClass()
+					.getMethod(GET_WIFI_AP_STATE);
+			int val = (Integer) method.invoke(mWifiManager);
+	
+			// Modulo 10 to avoid problems with Android 4.x where the value of
+			// the constants is increased by 10
+			val = val % 10;
+	
+			return val;
+		} catch (Exception e) {
+			Log.e(TAG, "", e);
+			return WifiManager.WIFI_STATE_UNKNOWN;
+		}
 	}
 
 }
