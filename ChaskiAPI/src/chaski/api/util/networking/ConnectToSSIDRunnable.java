@@ -143,22 +143,41 @@ public class ConnectToSSIDRunnable implements Runnable {
 	    	config.SSID = "\""+SSID+"\"";
 	    	config.priority = 1;
 	    	config.preSharedKey = "\""+ mPassword +"\"";
-	    	config.status = WifiConfiguration.Status.DISABLED;
-	    	config.status = WifiConfiguration.Status.CURRENT; config.status = WifiConfiguration.Status.ENABLED;
-	    	config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.IEEE8021X); config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+//	    	config.status = WifiConfiguration.Status.DISABLED;
+//	    	config.status = WifiConfiguration.Status.CURRENT; 
+//	    	config.status = WifiConfiguration.Status.ENABLED;
+	    	
+//	    	config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.IEEE8021X); 
+	    	/*
 	    	config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
 	    	config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
-//	    	config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-//	    	config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-//	    	config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.NONE);
-//	    	config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-//	    	config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP); 
-//	    	config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
-//	    	config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+	    	config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+	    	config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.NONE);
+	    	
+	    	 
+	    	
+	    	
 	    	config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-//	    	config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
-//	    	config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.LEAP);
-	    	config.allowedProtocols.set(WifiConfiguration.Protocol.WPA); config.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+	    	config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+	    	config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.LEAP);
+	    		    	 
+	    	config.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+	        config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+	        config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+	        config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+	        config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+	        config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+	        config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+	        config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+	        config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+	        */
+	    	
+	    	config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+	    	config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+	    	config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+	    	config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+	    	config.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+	    	
 	    	netId = this.mWifiManager.addNetwork(config);
 	    	
 	    	if(netId==-1){

@@ -637,20 +637,21 @@ public class ChaskiService extends Service implements IChaskiService{
 			mWifiApConfig.preSharedKey = Util.DEFAULT_NETWORK_PASSWORD;
 		}
 				
-		mWifiApConfig.allowedAuthAlgorithms
-				.set(WifiConfiguration.AuthAlgorithm.OPEN);
-		mWifiApConfig.allowedGroupCiphers
-				.set(WifiConfiguration.GroupCipher.CCMP);
-		mWifiApConfig.allowedGroupCiphers
-				.set(WifiConfiguration.GroupCipher.TKIP);
-		mWifiApConfig.allowedKeyManagement
-				.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-		mWifiApConfig.allowedPairwiseCiphers
-				.set(WifiConfiguration.PairwiseCipher.TKIP);
-		mWifiApConfig.allowedPairwiseCiphers
-				.set(WifiConfiguration.PairwiseCipher.CCMP);
-		mWifiApConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-		mWifiApConfig.status = WifiConfiguration.Status.ENABLED;
+//		mWifiApConfig.allowedAuthAlgorithms
+//				.set(WifiConfiguration.AuthAlgorithm.OPEN);
+
+		
+		mWifiApConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+        mWifiApConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+        mWifiApConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+        mWifiApConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        mWifiApConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+        
+//        mWifiApConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+//        mWifiApConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+//        mWifiApConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+//        mWifiApConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+        mWifiApConfig.status = WifiConfiguration.Status.ENABLED;
 		
 	}
 
