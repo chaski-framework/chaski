@@ -108,6 +108,20 @@ public interface IChaskiService {
 	 * @throws RemoteException
 	 */
 	public int getWifiApState() throws RemoteException;
+	
+	/**
+	 * Method that retrieves the state value of Wi-Fi AP when it is disabled.
+	 * @return State value in which a WiFi access point is disabled
+	 * @throws RemoteException
+	 */
+	public int getWifiApStateDisabled() throws RemoteException;
+	
+	/**
+	 * Method that retrieves the state value of Wi-Fi AP when it is enabled.
+	 * @return Method that retrieves the state value of Wi-Fi AP when it is enabled.
+	 * @throws RemoteException
+	 */
+	public int getWifiApStateEnabled() throws RemoteException;
 
     
     

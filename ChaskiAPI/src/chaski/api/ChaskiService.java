@@ -1,5 +1,6 @@
 package chaski.api;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -45,7 +46,13 @@ public class ChaskiService extends Service implements IChaskiService{
 	//Used to catch underlying OS action string when OS broadcast AP change
 	private static final String ANDROID_WIFI_AP_STATE_CHANGED_ACTION = "android.net.wifi.WIFI_AP_STATE_CHANGED";
 	
-	//Hidden method names in android.net.wifi.WifiManager
+	//Hidden field and method names in android.net.wifi.WifiManager
+	private static final String WIFI_AP_STATE_DISABLED = "WIFI_AP_STATE_DISABLED";
+	private static final String WIFI_AP_STATE_ENABLED = "WIFI_AP_STATE_ENABLED";
+	
+	private int mWifiApStateDisabled;
+	private int mWifiApStateEnabled;
+	
 	private static final String GET_WIFI_AP_STATE = "getWifiApState";
 	private static final String SET_WIFI_AP_CONFIGURATION = "setWifiApConfiguration";
 	private static final String SET_WIFI_AP_ENABLED = "setWifiApEnabled";
@@ -170,6 +177,8 @@ public class ChaskiService extends Service implements IChaskiService{
 		
 		initConnectivtyManager();
 		
+		initFields();
+		
 		mHandler = new ChaskiServiceHandler(this);
 		
 		setUpBroadcastReceiver();
@@ -177,6 +186,30 @@ public class ChaskiService extends Service implements IChaskiService{
 		return mBinder;
 	}
 	
+	private void initFields() {
+	
+		try {
+			Field field = mWifiManager.getClass().getDeclaredField(WIFI_AP_STATE_DISABLED);			
+						
+			mWifiApStateDisabled = field.getInt(mWifiManager);
+			
+			Field field2 = mWifiManager.getClass().getDeclaredField(WIFI_AP_STATE_ENABLED);
+			
+			mWifiApStateEnabled = field2.getInt(mWifiManager);
+			
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 	@Override
 	public void onDestroy() {
 		unregisterReceiver(broadcastReceiver);
@@ -279,7 +312,7 @@ public class ChaskiService extends Service implements IChaskiService{
 			
 			int state = getWifiApState();
 			
-			if(state == ChaskiConstants.AP_STATE_ENABLED){
+			if(state == mWifiApStateEnabled){
 				
 				WifiConfiguration wifiConfig = processGetWifiApConfiguration();
 				
@@ -300,7 +333,7 @@ public class ChaskiService extends Service implements IChaskiService{
 		public boolean isApEnabled() throws RemoteException  {
 			
 			
-			return (getWifiApState()==ChaskiConstants.AP_STATE_ENABLED);
+			return (getWifiApState()==mWifiApStateEnabled);
 			
 		}
 		
@@ -466,16 +499,16 @@ public class ChaskiService extends Service implements IChaskiService{
 			
 			Log.d(TAG,"wifiapstate="+ iApState); 
 			
-			if (iApState == ChaskiConstants.AP_STATE_ENABLED) {
+			if (iApState == mWifiApStateEnabled) {
 				Log.i(TAG, "Ap is open.");
 				
 				startReadingARPCache();
 				
-				sendApBroadcast(ChaskiConstants.AP_STATE_ENABLED);
+				sendApBroadcast(mWifiApStateEnabled);
 
 			} 
 			
-			else if (iApState == ChaskiConstants.AP_STATE_DISABLED) {	
+			else if (iApState == mWifiApStateDisabled) {	
 				
 				if(mUpdateSSIDFlag){
 					//update was meant, see declaration of this variable
@@ -486,7 +519,7 @@ public class ChaskiService extends Service implements IChaskiService{
 				else{
 					stopReadingARPCache();
 					
-					sendApBroadcast(ChaskiConstants.AP_STATE_DISABLED);
+					sendApBroadcast(mWifiApStateDisabled);
 				}						
 				
 			}
@@ -785,15 +818,21 @@ public class ChaskiService extends Service implements IChaskiService{
 					.getMethod(GET_WIFI_AP_STATE);
 			int val = (Integer) method.invoke(mWifiManager);
 	
-			// Modulo 10 to avoid problems with Android 4.x where the value of
-			// the constants is increased by 10
-			val = val % 10;
-	
 			return val;
 		} catch (Exception e) {
 			Log.e(TAG, "", e);
 			return WifiManager.WIFI_STATE_UNKNOWN;
 		}
+	}
+
+	@Override
+	public int getWifiApStateDisabled() throws RemoteException {
+		return mWifiApStateDisabled;
+	}
+
+	@Override
+	public int getWifiApStateEnabled() throws RemoteException {
+		return mWifiApStateEnabled;
 	}
 
 }

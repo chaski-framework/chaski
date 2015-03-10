@@ -10,21 +10,7 @@ public interface ChaskiConstants {
 		/**
 		 * Key to retrieve the state of a WiFi access point
 		 */
-		public static final String AP_STATE = "apstate";  
-				
-		/**
-		 * State in which a WiFi access point is disabled
-		 * Usage requires modulo 10 to avoid problems since constants values changed in Android 4.0.
-		 * Normally 1 but since 4.0 it is 11
-		 */
-		public static final int AP_STATE_DISABLED = 1; 
-		
-		/**
-		 * State in which a WiFi access point is enabled
-		 * Usage requires modulo 10 to avoid problems since constants values changed in Android 4.0.
-		 * Normally 3 but since it is 4.0 it is 13
-		 */ 
-		public static final int AP_STATE_ENABLED = 3; 
+		public static final String AP_STATE = "apstate";
 		
 		/**
 		 * Used as action indicators for changed access point connection states
