@@ -3,9 +3,21 @@ package chaski.api;
 public interface ChaskiConstants {		
 	
 		/**
-		 * Used as action indicators for changed access point state
+		 * Action indicator for changes to access point state
 		 */
 		public static final String AP_STATE_ACTION = "chaski.api.wifi.ap.STATE";
+
+		/**
+		 * Action indicator for changes to access point connection states
+		 */
+		public static final String CONNECTION_STATE_ACTION = "chaski.api.wifi.connection.STATE";
+		
+		/**
+		 * Action indicator for client related changes
+		 */
+		public static final String CLIENTS_STATE_ACTION = "chaski.api.wifi.conneciton.CLIENTS";
+
+		
 		
 		/**
 		 * Key to retrieve the state of a WiFi access point
@@ -13,14 +25,11 @@ public interface ChaskiConstants {
 		public static final String AP_STATE = "apstate";
 		
 		/**
-		 * Used as action indicators for changed access point connection states
-		 */
-		public static final String CONNECTION_STATE_ACTION = "chaski.api.wifi.connection.STATE";
-		
-		/**
 		 * Key to retrieve the connection state of a Wi-Fi station
 		 */
 		public static final String CONNECTION_STATE = "connectionState";
+		
+		
 		
 		/**
 		 *  State in which a WiFi station is disconnected
@@ -37,8 +46,10 @@ public interface ChaskiConstants {
 		 */
 		public static final int CONNECTION_ERROR_STATE = 53; 
 		
+		
+		
 		/**
-		 * Key to retrieve connected WiFi stations to a WiFi access points
+		 * Key for retrieving connected WiFi stations to WiFi access points
 		 */
 		public static final String KEY_CLIENTS = "KEY_CLIENTS";
 		
@@ -61,11 +72,6 @@ public interface ChaskiConstants {
 		 * Network name of connected access point
 		 */
 		public static final String KEY_SSID = "CONNECTED_SSID";
-
-		/**
-		 * Used as action indicators for client related action
-		 */
-		public static final String CLIENTS_STATE_ACTION = "chaski.api.wifi.conneciton.CLIENTS";
 
 		/**
 		 * Key to retrieve IP address
